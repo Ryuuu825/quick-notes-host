@@ -1,5 +1,6 @@
 {
-    "base_url": "https://pub-e1bdc637877b460bb70a0e23fe8615ea.r2.dev/",
+    "base_url": "https://raw.githubusercontent.com/Ryuuu825/quick-notes-host/refs/heads/master/",
+    "ignore_dir_name": false,
     "section": [
         "preparation",
         "notes"
