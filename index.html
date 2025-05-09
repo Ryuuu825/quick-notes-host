@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Markdown Previewer</title>
+        <!-- preview your markdown with provided link -->
+    <body>
+        <!-- Include markdown-it from CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
+        
+        <div id="markdown-output" style="width: 100vw;"></div>
+
+        <script>
+            // Initialize markdown-it
+            const md = window.markdownit();
+
+            // Function to convert markdown to HTML
+            function convertMarkdownToHTML(markdown) {
+                return md.render(markdown);
+            }
+
+            // Function to handle the conversion and display
+            function handleConversion(markdownFileLink) {
+                // fetch the markdown file from the provided link
+                // if the link is in query string format, decode it
+                fetch(markdownFileLink)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(markdown => {
+                        // Convert markdown to HTML
+                        const html = convertMarkdownToHTML(markdown);
+                        // Display the HTML in the output div
+                        document.getElementById('markdown-output').innerHTML = html;
+                    })
+                    .catch(error => {
+                        document.getElementById('markdown-output').innerHTML = `<p>Error: ${error.message}</p>`;
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+            // Event listeners for buttons
+            if (window.location.search) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const markdownFileLink = decodeURIComponent(urlParams.get('md'));
+                handleConversion(markdownFileLink);
+            }
+
+        </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "base_url": "https://pub-e1bdc637877b460bb70a0e23fe8615ea.r2.dev/",
+    "section": [
+        "preparation",
+        "notes"
+    ],
+    "exclude_files": [
+        "preparation/final.md"
+    ],
+    "align": {
+        "preparation": "AI-generated question bank",
+        "notes": "Notes"
+    }
+}
