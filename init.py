@@ -61,9 +61,9 @@ def process_directory(dir_name, base_dir, config):
             name_without_ext = file_name.replace(".md", "")
             display_name = get_display_name(name_without_ext, config.get("align", {}))
             if config.get("ignore_dir_name", False):
-                content += f"- [{display_name}]({config['base_url']}/{file_name})\n"
+                content += f"- [{display_name}]({config['hosting_url']}/?md={file_name})\n"
             else:
-                content += f"- [{display_name}]({config['base_url']}{rel_path})\n"
+                content += f"- [{display_name}]({config['hosting_url']}?md={rel_path})\n"
             
     return content
 
@@ -72,6 +72,9 @@ def generate_navigation_page():
     config = load_config()
     base_dir = Path(__file__).parent
     config["tmp"] = base_dir
+    config["hosting_url"] = config["base_url"]
+    if "githubusercontent" in config["hosting_url"]:
+        config["hosting_url"] = f"https://{config["base_url"].split("/")[3]}.github.io/{config["base_url"].split("/")[4]}"
     
     print("Using config:", config)
     
@@ -160,9 +163,9 @@ def generate_navigation_page():
     print("\nAfter you host the page, please visit:")
     if "githubusercontent" in config["base_url"]:
         print("Note: you may using github hosting")
-        print("Please visit:", f"https://{config["base_url"].split("/")[3]}.github.io/{config["base_url"].split("/")[4]}?md={config["base_url"]}nav_page.md")
+        print("Please visit:", f"{config['hosting_url']}?md={config["base_url"]}nav_page.md")
     else: 
-        print("Please visit:", f"{config['base_url']}?md=nav_page.md")
+        print("Please visit:", f"{config['hosting_url']}?md=nav_page.md")
 
 if __name__ == "__main__":
     generate_navigation_page()
