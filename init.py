@@ -54,11 +54,16 @@ def process_directory(dir_name, base_dir, config):
     
     for file_path in files:
         file_path = Path(file_path)
+        # Convert to relative path for comparison with exclude_files
+        rel_path = os.path.relpath(file_path, base_dir)
         if file_path != nav_page_path:
             file_name = file_path.name
             name_without_ext = file_name.replace(".md", "")
             display_name = get_display_name(name_without_ext, config.get("align", {}))
-            content += f"- [{display_name}]({config['base_url'] + file_name})\n"
+            if config.get("ignore_dir_name", False):
+                content += f"- [{display_name}]({config['base_url']}/{file_name})\n"
+            else:
+                content += f"- [{display_name}]({config['base_url']}{rel_path})\n"
             
     return content
 
@@ -87,9 +92,77 @@ def generate_navigation_page():
     # Write the navigation page
     with open(base_dir / 'nav_page.md', 'w') as f:
         f.write(nav_content)
+    html_content = """<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Markdown Previewer</title>
+        <!-- preview your markdown with provided link -->
+    <body>
+        <!-- Include markdown-it from CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
+        
+        <div id="markdown-output" style="width: 100vw;"></div>
+
+        <script>
+            // Initialize markdown-it
+            const md = window.markdownit();
+
+            // Function to convert markdown to HTML
+            function convertMarkdownToHTML(markdown) {
+                return md.render(markdown);
+            }
+
+            // Function to handle the conversion and display
+            function handleConversion(markdownFileLink) {
+                // fetch the markdown file from the provided link
+                // if the link is in query string format, decode it
+                fetch(markdownFileLink)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(markdown => {
+                        // Convert markdown to HTML
+                        const html = convertMarkdownToHTML(markdown);
+                        // Display the HTML in the output div
+                        document.getElementById('markdown-output').innerHTML = html;
+                    })
+                    .catch(error => {
+                        document.getElementById('markdown-output').innerHTML = `<p>Error: ${error.message}</p>`;
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+            // Event listeners for buttons
+            if (window.location.search) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const markdownFileLink = decodeURIComponent(urlParams.get('md'));
+                handleConversion(markdownFileLink);
+            }
+
+        </script>
+
+
+    </body>
+</html>
+"""
+    with open(base_dir / 'index.html', 'w') as f:
+        f.write(html_content)
 
     print("Navigation page generated successfully.")
-    print("After you host the page, please visit: \n", config["base_url"])
+    print("HTML file generated successfully.")
+    print("Please also host the 'nav_page.md' file.")
+
+    print("\nAfter you host the page, please visit:")
+    if "githubusercontent" in config["base_url"]:
+        print("Note: you may using github hosting")
+        print("Please visit:", f"https://{config["base_url"].split("/")[3]}.github.io/{config["base_url"].split("/")[4]}?md={config["base_url"]}nav_page.md")
+    else: 
+        print("Please visit:", f"{config['base_url']}?md=nav_page.md")
 
 if __name__ == "__main__":
     generate_navigation_page()
