@@ -45,7 +45,7 @@ def process_directory(dir_name, base_dir, config):
         return ""
 
     # Create section header
-    display_name = get_display_name(dir_name, config.get("align", {}))
+    display_name = get_display_name(dir_name, config.get("alias", {}))
     content = f"## {display_name}\n\n"
     
     # Add links to all markdown files
@@ -59,7 +59,7 @@ def process_directory(dir_name, base_dir, config):
         if file_path != nav_page_path:
             file_name = file_path.name
             name_without_ext = file_name.replace(".md", "")
-            display_name = get_display_name(name_without_ext, config.get("align", {}))
+            display_name = get_display_name(name_without_ext, config.get("alias", {}))
             if config.get("ignore_dir_name", False):
                 content += f"- [{display_name}]({config['hosting_url']}/?md={file_name})\n"
             else:
@@ -95,6 +95,9 @@ def generate_navigation_page():
     # Write the navigation page
     with open(base_dir / 'nav_page.md', 'w') as f:
         f.write(nav_content)
+    
+    print("Navigation page generated successfully.")
+    
     html_content = """<!DOCTYPE html>
 <html lang="en">
     <head>
@@ -156,9 +159,8 @@ def generate_navigation_page():
     with open(base_dir / 'index.html', 'w') as f:
         f.write(html_content)
 
-    print("Navigation page generated successfully.")
     print("HTML file generated successfully.")
-    print("Please also host the 'nav_page.md' file.")
+    print("Please also host the `nav_page.md` and `index.html` file.")
 
     print("\nAfter you host the page, please visit:")
     print(f"{config['hosting_url']}?md=nav_page.md")

@@ -8,7 +8,7 @@
     "exclude_files": [
         "preparation/final.md"
     ],
-    "align": {
+    "alias": {
         "preparation": "AI-generated question bank",
         "notes": "Notes"
     }
