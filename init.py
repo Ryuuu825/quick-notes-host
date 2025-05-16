@@ -162,18 +162,19 @@ def generate_navigation_page():
                         console.error('There was a problem with the fetch operation:', error);
                     });
             }
+            let markdownFileLink = "nav_page.md";
             // Event listeners for buttons
             if (window.location.search) {
                 const urlParams = new URLSearchParams(window.location.search);
-                const markdownFileLink = decodeURIComponent(urlParams.get('md'));
-                handleConversion(markdownFileLink);
+                markdownFileLink = decodeURIComponent(urlParams.get('md'));
             }
-
+            handleConversion(markdownFileLink);
         </script>
 
 
     </body>
 </html>
+
 """
     with open(base_dir / 'index.html', 'w') as f:
         f.write(html_content)
