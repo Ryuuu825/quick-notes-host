@@ -1,5 +1,5 @@
 # quick-note-host
-Build a navigation page with a list of links to other markdown files, allowing u to navigate between them through web links. Also display your markdown in html.
+Build a navigation page with a list of links to other markdown files, allowing u to navigate between them through web links. Also display your markdown & latex math expression in html.
 
 just see this example:
 https://Ryuuu825.github.io/quick-notes-host?md=nav_page.md
