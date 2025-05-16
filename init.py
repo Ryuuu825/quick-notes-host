@@ -109,12 +109,31 @@ def generate_navigation_page():
         <!-- Include markdown-it from CDN -->
         <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
-        
+        <!-- Include latex from CDN -->
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
         <div id="markdown-output" style="width: 100vw;"></div>
+        <script>
+            const md = window.markdownit({
+                html: true,
+                linkify: true,
+                typographer: true,
+                breaks: true,
+            });
+        </script>
+        <script>
+            MathJax = {
+            tex: {
+                inlineMath: [['$', '$'],]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+            };
+        </script>
 
         <script>
-            // Initialize markdown-it
-            const md = window.markdownit();
 
             // Function to convert markdown to HTML
             function convertMarkdownToHTML(markdown) {
