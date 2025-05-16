@@ -1,19 +1,34 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Markdown Previewer</title>
-        <!-- preview your markdown with provided link -->
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [["$", "$"]],
+                },
+                svg: {
+                    fontCache: "global",
+                },
+            };
+        </script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        ></script>
+    </head>
+    <!-- preview your markdown with provided link -->
     <body>
         <!-- Include markdown-it from CDN -->
         <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
         <!-- Include latex from CDN -->
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-
-        <div id="markdown-output" style="width: 100vw;"></div>
+        <div id="markdown-output" style="width: 100vw"></div>
         <script>
             const md = window.markdownit({
                 html: true,
@@ -22,19 +37,8 @@
                 breaks: true,
             });
         </script>
-        <script>
-            MathJax = {
-            tex: {
-                inlineMath: [['$', '$'],]
-            },
-            svg: {
-                fontCache: 'global'
-            }
-            };
-        </script>
 
         <script>
-
             // Function to convert markdown to HTML
             function convertMarkdownToHTML(markdown) {
                 return md.render(markdown);
@@ -45,33 +49,38 @@
                 // fetch the markdown file from the provided link
                 // if the link is in query string format, decode it
                 fetch(markdownFileLink)
-                    .then(response => {
+                    .then((response) => {
                         if (!response.ok) {
-                            throw new Error('Network response was not ok');
+                            throw new Error("Network response was not ok");
                         }
                         return response.text();
                     })
-                    .then(markdown => {
+                    .then((markdown) => {
                         // Convert markdown to HTML
                         const html = convertMarkdownToHTML(markdown);
                         // Display the HTML in the output div
-                        document.getElementById('markdown-output').innerHTML = html;
+                        document.getElementById("markdown-output").innerHTML =
+                            html;
                     })
-                    .catch(error => {
-                        document.getElementById('markdown-output').innerHTML = `<p>Error: ${error.message}</p>`;
-                        console.error('There was a problem with the fetch operation:', error);
+                    .catch((error) => {
+                        document.getElementById(
+                            "markdown-output"
+                        ).innerHTML = `<p>Error: ${error.message}</p>`;
+                        console.error(
+                            "There was a problem with the fetch operation:",
+                            error
+                        );
                     });
             }
-            let markdownFileLink = "nav_page.md";
             // Event listeners for buttons
+            let markdownFileLink = "nav_page.md";
             if (window.location.search) {
                 const urlParams = new URLSearchParams(window.location.search);
-                markdownFileLink = decodeURIComponent(urlParams.get('md'));
+                markdownFileLink = decodeURIComponent(urlParams.get("md"));
             }
             handleConversion(markdownFileLink);
+            MathJax.typeset();
         </script>
-
-
     </body>
 </html>
 
