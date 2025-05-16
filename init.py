@@ -74,7 +74,7 @@ def generate_navigation_page():
     config["tmp"] = base_dir
     config["hosting_url"] = config["base_url"]
     if "githubusercontent" in config["hosting_url"]:
-        config["hosting_url"] = f"https://{config["base_url"].split("/")[3]}.github.io/{config["base_url"].split("/")[4]}"
+        config["hosting_url"] = f"https://{config['base_url'].split('/')[3]}.github.io/{config['base_url'].split('/')[4]}"
     
     print("Using config:", config)
     
@@ -161,11 +161,7 @@ def generate_navigation_page():
     print("Please also host the 'nav_page.md' file.")
 
     print("\nAfter you host the page, please visit:")
-    if "githubusercontent" in config["base_url"]:
-        print("Note: you may using github hosting")
-        print("Please visit:", f"{config['hosting_url']}?md={config["base_url"]}nav_page.md")
-    else: 
-        print("Please visit:", f"{config['hosting_url']}?md=nav_page.md")
+    print(f"{config['hosting_url']}?md=nav_page.md")
 
 if __name__ == "__main__":
     generate_navigation_page()
