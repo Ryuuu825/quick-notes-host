@@ -1,0 +1,15 @@
+{
+    "base_url": "https://raw.githubusercontent.com/Ryuuu825/quick-notes-host/refs/heads/master/",
+    "ignore_dir_name": false,
+    "section": [
+        "preparation",
+        "notes"
+    ],
+    "exclude_files": [
+        "preparation/final.md"
+    ],
+    "alias": {
+        "preparation": "AI-generated question bank",
+        "notes": "Notes"
+    }
+}
