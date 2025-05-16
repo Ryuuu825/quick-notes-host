@@ -117,7 +117,6 @@ def generate_navigation_page():
         </script>
         <script
             id="MathJax-script"
-            async
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
         ></script>
     </head>
@@ -161,6 +160,7 @@ def generate_navigation_page():
                         // Display the HTML in the output div
                         document.getElementById("markdown-output").innerHTML =
                             html;
+                        MathJax.typesetPromise();
                     })
                     .catch((error) => {
                         document.getElementById(
@@ -179,7 +179,6 @@ def generate_navigation_page():
                 markdownFileLink = decodeURIComponent(urlParams.get("md"));
             }
             handleConversion(markdownFileLink);
-            MathJax.typeset();
         </script>
     </body>
 </html>
