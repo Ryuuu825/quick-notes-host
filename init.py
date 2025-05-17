@@ -17,9 +17,12 @@ def get_markdown_files(directory, config):
     
     for root, _, filenames in os.walk(directory):
         for filename in filenames:
-            if not filename.endswith('.md') or filename.startswith('.'):
+            if filename.startswith('.'):
                 continue
-                
+            
+            if not any(filename.endswith(f".{ext}") for ext in config.get("allowed_extensions", [".md"])):
+                continue
+
             file_path = os.path.join(root, filename)
             
             # Convert to relative path for comparison with exclude_files
@@ -58,13 +61,17 @@ def process_directory(dir_name, base_dir, config):
         rel_path = os.path.relpath(file_path, base_dir)
         if file_path != nav_page_path:
             file_name = file_path.name
-            name_without_ext = file_name.replace(".md", "")
+            name_without_ext = file_name.replace(f".{file_name.split('.')[-1]}", "")
             display_name = get_display_name(name_without_ext, config.get("alias", {}))
-            if config.get("ignore_dir_name", False):
-                content += f"- [{display_name}]({config['hosting_url']}/?md={file_name})\n"
+            content += f"- [{display_name}]({config['hosting_url']}"
+            if file_name.endswith(".md"):
+                if config.get("ignore_dir_name", False):
+                    content += f"/{file_name})\n"
+                else:   
+                    content += f"?md={rel_path})\n"
             else:
-                content += f"- [{display_name}]({config['hosting_url']}?md={rel_path})\n"
-            
+                content += f"/{rel_path})\n"
+
     return content
 
 

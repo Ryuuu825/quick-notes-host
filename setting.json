@@ -3,5 +3,9 @@
     "ignore_dir_name": false,
     "section": [],
     "exclude_files": [],
-    "alias": {}
+    "alias": {},
+    "allowed_extensions": [
+        "md",
+        "pdf"
+    ]
 }

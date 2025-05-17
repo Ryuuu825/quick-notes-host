@@ -1,3 +1,6 @@
+## pdf
+
+- [dummy](/pdf/dummy.pdf)
 ## notes
 
 - [重要公約](?md=notes/重要公約.md)
