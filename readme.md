@@ -5,6 +5,8 @@ just see this example:
 https://Ryuuu825.github.io/quick-notes-host
 
 ## Usage
+download `https://raw.githubusercontent.com/Ryuuu825/quick-notes-host/refs/heads/master/init.py` and `https://raw.githubusercontent.com/Ryuuu825/quick-notes-host/refs/heads/master/setting.json`
+
 run `python3 init.py` and then publish all the markdown files and generated `index.html`, `nav_page.md` to your hosting services.
 
 ## Setting
