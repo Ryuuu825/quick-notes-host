@@ -13,6 +13,11 @@ curl https://raw.githubusercontent.com/Ryuuu825/quick-notes-host/refs/heads/mast
 
 run `python3 init.py` and then publish all the markdown files and generated `index.html`, `nav_page.md` to your hosting services.
 
+download `server.py` if you want to use it locally before deploy all the content to the web
+```bash
+curl https://raw.githubusercontent.com/Ryuuu825/quick-notes-host/refs/heads/master/server.py -O
+```
+
 ## Setting
 - `base_url`: the base url of thats points to the root folder of your markdown files.
 - `ignore_dir_name`: u may set it true when u use sth like cloudflare r2 that does not support subdir.
