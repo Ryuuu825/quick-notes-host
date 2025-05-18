@@ -12,10 +12,13 @@ PORT = 8000
 Handler = http.server.SimpleHTTPRequestHandler
 
 class MyEventHandler(FileSystemEventHandler):
+    def __init__(self):
+        super().__init__()
+        self.ignore = ["nav_page.md", "index.html"]
     def on_any_event(self, event: FileSystemEvent) -> None:
         # Respond to any file change (created, modified, moved, deleted)
         if not event.is_directory \
-            and str(event.src_path) not in [str(Path(__file__).parent / "nav_page.md"), str(Path(__file__).parent / "index.html")]:
+            and not event.src_path.endswith(tuple(self.ignore)):
             init.generate_navigation_page()
             print(f"Event type: {event.event_type}  Path: {event.src_path}")
 
@@ -39,7 +42,7 @@ observer.start()
 # Keep the program running until interrupted
 try:
     while True:
-        time.sleep(1)
+        time.sleep(5)
 except KeyboardInterrupt:
     observer.stop()
     print("Observer stopped")
