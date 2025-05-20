@@ -9,6 +9,7 @@ import threading
 import init
 
 PORT = 8000
+config = init.load_config()
 Handler = http.server.SimpleHTTPRequestHandler
 
 class MyEventHandler(FileSystemEventHandler):
@@ -19,7 +20,7 @@ class MyEventHandler(FileSystemEventHandler):
         # Respond to any file change (created, modified, moved, deleted)
         if not event.is_directory \
             and not event.src_path.endswith(tuple(self.ignore)):
-            init.generate_navigation_page()
+            init.generate_navigation_page(config=config)
             print(f"Event type: {event.event_type}  Path: {event.src_path}")
 
 # Run HTTP server in a separate thread
@@ -27,6 +28,7 @@ def run_http_server():
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
         print(f"Serving at port {PORT}")
         httpd.serve_forever()
+
 
 # Start the HTTP server in a thread
 server_thread = threading.Thread(target=run_http_server)
@@ -42,7 +44,7 @@ observer.start()
 # Keep the program running until interrupted
 try:
     while True:
-        time.sleep(5)
+        time.sleep(1)
 except KeyboardInterrupt:
     observer.stop()
     print("Observer stopped")
