@@ -75,8 +75,10 @@ def process_directory(dir_name, base_dir, config):
     return content
 
 
-def generate_navigation_page():
-    config = load_config()
+def generate_navigation_page(config=None):
+    # config = load_config()
+    if config is None:
+        config = load_config()
     base_dir = Path(__file__).parent
     config["tmp"] = base_dir
     config["hosting_url"] = config["base_url"]
